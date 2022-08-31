@@ -4,11 +4,8 @@ The aim is to somehow find a correlation between a rgb color and the colors rela
 
 ```sh
 
-1> python3 main.py > colors.csv
+python3 main.py 
 
-2> mlr --csv sort -nr rel_lum colors.csv > sorted-colors.csv
-
-# Top 1_000_000 colors
-3> head -1000000 sorted-colors.csv > top-1_000_000-colors.csv
+python3 plot.py
 
 ```
