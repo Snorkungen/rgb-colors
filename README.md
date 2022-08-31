@@ -4,8 +4,9 @@ The aim is to somehow find a correlation between a rgb color and the colors rela
 
 ```sh
 
-python3 main.py 
-
-python3 plot.py
+1> python3 ./main.py 
+2> python3 ./plot.py
 
 ```
+
+![alt "image showing result of plot.py"](./plot.png)
