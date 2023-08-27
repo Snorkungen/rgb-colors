@@ -26,25 +26,28 @@ def get_color(color):
     ]
 
 
-gray = get_color("gray")
-red = get_color("red")
-green = get_color("green")
-blue = get_color("blue")
-yellow = get_color("yellow")
-cyan = get_color("cyan")
-purple = get_color("purple")
+def main ():
+    gray = get_color("gray")
+    red = get_color("red")
+    green = get_color("green")
+    blue = get_color("blue")
+    yellow = get_color("yellow")
+    cyan = get_color("cyan")
+    purple = get_color("purple")
 
-# draw lines
-fig, ax = plt.subplots()
-ax.plot(gray[0], gray[1], color="gray")
-ax.plot(yellow[0], yellow[1], "y")
-ax.plot(cyan[0], cyan[1], "c")
-ax.plot(purple[0], purple[1], color="purple")
-ax.plot(red[0], red[1], "r")
-ax.plot(green[0], green[1], "g")
-ax.plot(blue[0], blue[1], "b")
+    # draw lines
+    fig, ax = plt.subplots()
+    ax.plot(gray[0], gray[1], color="gray")
+    ax.plot(yellow[0], yellow[1], "y")
+    ax.plot(cyan[0], cyan[1], "c")
+    ax.plot(purple[0], purple[1], color="purple")
+    ax.plot(red[0], red[1], "r")
+    ax.plot(green[0], green[1], "g")
+    ax.plot(blue[0], blue[1], "b")
 
-ax.set_xlabel("Sum")
-ax.set_ylabel("Luminance")
+    ax.set_xlabel("Sum")
+    ax.set_ylabel("Luminance")
 
-plt.show()
+    plt.show()
+
+main()

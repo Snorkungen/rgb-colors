@@ -29,6 +29,44 @@ def rgb_relative_luminance(red, green, blue):
     return .2126 * linear(red) + .7152 * linear(green) + .07222 * linear(blue)
 
 
+def rgb_to_hsl(red, green, blue):
+    # https://css-tricks.com/converting-color-spaces-in-javascript/
+    red /= 255
+    green /= 255
+    blue /= 255
+    cmax = max(red, green, blue)
+    cmin = min(red, green, blue)
+    delta = cmax - cmin
+    h = 0
+    s = 0
+    l = 0
+
+    # Calculate hue
+    if (delta == 0):
+        h = 0
+    elif (cmax == red):
+        h = ((green - blue) / delta) % 6
+    elif (cmax == green):
+        h = (blue - red) / delta + 2
+    else:
+        h = (red - green) / delta + 4
+
+    # Make negative hues positive behind 360°
+    if (h < 0): h += 360
+
+    # Calculate lightness
+    l = (cmax + cmin) / 2
+
+    # Calculate saturation
+    s = 0 if delta == 0 else delta / (1 - abs(2 * l - 1))
+
+    return [h, s, l]
+
+
+def hsl_to_rgb(h, s, l):
+    s /= 100
+
+
 # CSV Headers rgb, hex ,rel_lum
 def write_to_file(file_name, fn):
     with open("data/" + file_name, "w") as csvfile:
@@ -80,10 +118,22 @@ def write_purple_scale(write):
         write(create_row(p, 0, p))
 
 
-write_to_file("gray.csv", write_gray_scale)
-write_to_file("red.csv", write_red_scale)
-write_to_file("green.csv", write_green_scale)
-write_to_file("blue.csv", write_blue_scale)
-write_to_file("yellow.csv", write_yellow_scale)
-write_to_file("cyan.csv", write_cyan_scale)
-write_to_file("purple.csv", write_purple_scale)
+# write_to_file("gray.csv", write_gray_scale)
+# write_to_file("red.csv", write_red_scale)
+# write_to_file("green.csv", write_green_scale)
+# write_to_file("blue.csv", write_blue_scale)
+# write_to_file("yellow.csv", write_yellow_scale)
+# write_to_file("cyan.csv", write_cyan_scale)
+# write_to_file("purple.csv", write_purple_scale)
+
+
+def colors(write):
+    for r in range(16 + 1):
+        for g in range(16 + 1):
+            for b in range(16 + 1):
+                write(
+                    create_row(min(r * 16, 255), min(g * 16, 255),
+                               min(b * 16, 255)))
+
+
+write_to_file("colors.csv", colors)
