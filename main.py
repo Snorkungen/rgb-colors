@@ -28,6 +28,15 @@ def rgb_relative_luminance(red, green, blue):
 
     return .2126 * linear(red) + .7152 * linear(green) + .07222 * linear(blue)
 
+# (LL + 0.05) / (LD + 0.05) = R
+
+def get_darker_lum (lighter_lum, ratio):
+    lhs = (lighter_lum + 0.05) - ratio * 0.05
+    if lhs == 0:
+        return lhs
+    return lhs / ratio
+def get_lighter_lum (darker_lum, ratio):
+    return ratio* (darker_lum + 0.05) - 0.05
 
 def rgb_to_hsl(red, green, blue):
     # https://css-tricks.com/converting-color-spaces-in-javascript/
