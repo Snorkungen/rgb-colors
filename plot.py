@@ -1,6 +1,5 @@
-import matplotlib.pyplot as plt
 import csv
-
+import matplotlib.pyplot as plt
 
 def read_csv(filename):
     rows = []
@@ -8,8 +7,11 @@ def read_csv(filename):
         print("Started reading from " + filename)
         reader = csv.reader(f)
         next(reader)
-
-        for rgb, hex, rel_lum in reader:
+        print(reader)
+        for row in reader:
+            if len(row) < 3:
+                continue
+            rgb, hex, rel_lum = row
             rows.append([
                 list(map(int,
                          rgb.strip("(").strip(")").split())), hex,
