@@ -72,14 +72,14 @@ def rgb_to_hsl(red, green, blue):
     return [h, s, l]
 
 
-def hsl_to_rgb(h, s, l):
-    s /= 100
+# def hsl_to_rgb(h, s, l):
+#     s /= 100
 
 
 # CSV Headers rgb, hex ,rel_lum
 def write_to_file(file_name, fn):
-    with open("data/" + file_name, "w") as csvfile:
-        file_writer = csv.writer(csvfile, delimiter=",")
+    with open("data/" + file_name, "w", newline='') as csvfile:
+        file_writer = csv.writer(csvfile, delimiter=",", )
         file_writer.writerow(['rgb', 'hex', 'rel_lum'])
         fn(file_writer.writerow)
 
@@ -127,13 +127,13 @@ def write_purple_scale(write):
         write(create_row(p, 0, p))
 
 
-# write_to_file("gray.csv", write_gray_scale)
-# write_to_file("red.csv", write_red_scale)
-# write_to_file("green.csv", write_green_scale)
-# write_to_file("blue.csv", write_blue_scale)
-# write_to_file("yellow.csv", write_yellow_scale)
-# write_to_file("cyan.csv", write_cyan_scale)
-# write_to_file("purple.csv", write_purple_scale)
+write_to_file("gray.csv", write_gray_scale)
+write_to_file("red.csv", write_red_scale)
+write_to_file("green.csv", write_green_scale)
+write_to_file("blue.csv", write_blue_scale)
+write_to_file("yellow.csv", write_yellow_scale)
+write_to_file("cyan.csv", write_cyan_scale)
+write_to_file("purple.csv", write_purple_scale)
 
 
 def colors(write):
