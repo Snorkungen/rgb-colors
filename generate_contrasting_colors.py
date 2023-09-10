@@ -41,13 +41,18 @@ if not path.exists(OUT_DIR):
     mkdir(OUT_DIR)
 
 from color_factory import ColorFactorySimple
+from progressbar import Progressbar
 
 
 with open (path.join(OUT_DIR,OUT_FILE), "w", newline="") as csv_out_file:
     writer = csv.writer(csv_out_file)
     writer.writerow(["hex", "rel_lum", "light"])
-    
-    for color in ColorFactorySimple(inc=35):
+
+    cfac = ColorFactorySimple(inc=15)
+    pgbar = Progressbar(cfac.total(),"computing")
+
+    for color in cfac:
+        pgbar.increment()
         rlum = rgb_relative_luminance(*color)
         dlum = get_darker_lum(rlum,MIN_CONTRAST_RATIO)
 
@@ -61,3 +66,4 @@ with open (path.join(OUT_DIR,OUT_FILE), "w", newline="") as csv_out_file:
             else: continue
 
         writer.writerow([rgb_to_hex(*color),rlum, is_light])
+    pgbar.end()
