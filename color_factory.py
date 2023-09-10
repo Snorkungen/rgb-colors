@@ -1,3 +1,5 @@
+import math
+from typing import Final
 
 class ColorFactoryInterface():
     def __iter__(self):
@@ -5,13 +7,17 @@ class ColorFactoryInterface():
 
     def __next__(self):
         pass
-
+    def total(self) -> int:
+        pass
 
 class ColorFactorySimple (ColorFactoryInterface):
     def __init__(self, inc=5):
         self.r, self.g, self.b = 0,0,0
         self.depth = 3
-        self.inc =  inc
+        self.inc : Final =  inc
+
+        self.count = 0
+        self.__len__ = self.total
     def __iter__(self):
         return self
     
@@ -27,8 +33,7 @@ class ColorFactorySimple (ColorFactoryInterface):
     #         for b in range(18):
 
         if self.depth <= 1: raise StopIteration
-
-    # TODO remove duplicates
+        self.count += 1
 
         if self.depth == 3:
             self.b += self.inc
@@ -49,3 +54,12 @@ class ColorFactorySimple (ColorFactoryInterface):
             else: self.depth += 1
 
         return vals
+
+    def total(self) -> int:
+        x = math.ceil(255 / self.inc )
+
+        if x > 127:
+            x -= 1 # how this thing works i do not know
+
+        # return ((x + 1) * x + 1) * (x + 1) + x
+        return (x + 1)**3 - x ** 2 # Don't forget the reset "a.k.a" 0th mode and then remove dupes 
