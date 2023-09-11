@@ -41,6 +41,9 @@ def get_darker_lum(lighter_lum, ratio):
 def get_lighter_lum(darker_lum, ratio):
     return ratio * (darker_lum + 0.05) - 0.05
 
+def is_relative_luminance_valid (lum: float) -> bool:
+    return lum > 0.0 and lum <= 1.00002 # Floats are so great
+
 def get_contrast_ratio (lum1: float, lum2: float) -> float: 
     l, d = max(lum1,lum2), min(lum1,lum2)
     return (l + 0.05) / (d + 0.05)
