@@ -20,13 +20,13 @@ def ensure_file_exists(filename: str, producer_args: list[str]) -> None:
         raise ValueError("Producer lacks arguments")
 
     if path.splitext(producer_args[0])[1] == ".py":
-        producer_args = sys.argv[0] + producer_args
+        producer_args = [sys.executable] + producer_args
 
     produced_result = subprocess.call(
         producer_args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
     if not produced_result == 0:
-        raise "Producer failed"
+        raise RuntimeError("Producer failed")
 
     if not path.exists(filepath):
-        raise f"{filepath}: not found after running producer"
+        raise RuntimeError(f"{filepath}: not found after running producer")
