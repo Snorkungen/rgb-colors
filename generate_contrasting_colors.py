@@ -4,9 +4,9 @@ import csv
 from utils import *
 
 OUT_DIR: Final = "data"
-OUT_FILE: Final = "colors-with-contrasting-color-test.csv"
+OUT_FILE: Final = "colors-with-contrasting-color.csv"
 MIN_CONTRAST_RATIO: Final = 7.3
-COLOR_FACTORY_SIMPLE_INC: Final = 16
+COLOR_FACTORY_SIMPLE_INC: Final = 13
 
 # create data directory
 if not path.exists(OUT_DIR):
