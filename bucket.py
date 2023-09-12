@@ -2,17 +2,17 @@ from os import path
 from progressbar import Progressbar
 import utils
 import csv
-from generate_contrasting_colors import OUT_FILE as gcc_out_file
 
 from filedependency import ensure_file_exists, OUT_DIR
 
+dependency_filename = "colors-with-contrasting-color.csv"
+
 ensure_file_exists(
-    gcc_out_file,
+    dependency_filename,
     ["generate_contrasting_colors.py"]
 )
 
-
-filename = path.join(OUT_DIR, gcc_out_file)
+filename = path.join(OUT_DIR, dependency_filename)
 
 COLOR_OF_INTREST = "#2020ff"
 CONTRAST_RATIO = 7.1  # Because floats are toootally accurate
@@ -36,7 +36,6 @@ with open(filename, "r") as file:
 
     rows = list(reader)
     pgbar = Progressbar(len(rows), prefix=f"computing for {COLOR_OF_INTREST}")
-    print(contrast_luminance)
     for hex, rlum, _, _ in rows:
         pgbar.increment()
         if not is_light and float(rlum) < contrast_luminance:

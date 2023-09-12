@@ -15,28 +15,28 @@ if not path.exists(OUT_DIR):
 from color_factory import ColorFactorySimple
 from progressbar import Progressbar
 
-if __name__ == "__main__":
-    with open(path.join(OUT_DIR, OUT_FILE), "w", newline="") as csv_out_file:
-        writer = csv.writer(csv_out_file)
-        writer.writerow(["hex", "rel_lum", "light", "contrast_lum"])
 
-        cfac = ColorFactorySimple(inc=COLOR_FACTORY_SIMPLE_INC)
-        pgbar = Progressbar(cfac.total(), "computing")
+with open(path.join(OUT_DIR, OUT_FILE), "w", newline="") as csv_out_file:
+    writer = csv.writer(csv_out_file)
+    writer.writerow(["hex", "rel_lum", "light", "contrast_lum"])
 
-        for color in cfac:
-            pgbar.increment()
-            rlum = rgb_relative_luminance(*color)
-            clum = get_darker_lum(rlum, MIN_CONTRAST_RATIO)
+    cfac = ColorFactorySimple(inc=COLOR_FACTORY_SIMPLE_INC)
+    pgbar = Progressbar(cfac.total(), "computing")
 
-            is_light = clum > 0 and clum < 1
+    for color in cfac:
+        pgbar.increment()
+        rlum = rgb_relative_luminance(*color)
+        clum = get_darker_lum(rlum, MIN_CONTRAST_RATIO)
 
-            if not is_light:
-                clum = get_lighter_lum(rlum, MIN_CONTRAST_RATIO)
+        is_light = clum > 0 and clum < 1
 
-                if clum > 0 and clum < 1:
-                    is_light = False
-                else:
-                    continue
+        if not is_light:
+            clum = get_lighter_lum(rlum, MIN_CONTRAST_RATIO)
 
-            writer.writerow([rgb_to_hex(*color), rlum, is_light, clum])
-        pgbar.end()
+            if clum > 0 and clum < 1:
+                is_light = False
+            else:
+                continue
+
+        writer.writerow([rgb_to_hex(*color), rlum, is_light, clum])
+    pgbar.end()

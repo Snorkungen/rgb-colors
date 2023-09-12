@@ -1,10 +1,14 @@
 import utils
 import math
+from os import path
+from filedependency import ensure_file_exists, OUT_DIR
 
 color_of_intrest = "#2020ff"
-filename = f"data/color-{color_of_intrest[1:]}.csv"
+filename = f"color-{color_of_intrest[1:]}.csv"
 
-with open(filename, "r") as file:
+ensure_file_exists(filename, ["bucket.py"])
+
+with open(path.join(OUT_DIR, filename), "r") as file:
     contrasting_colors = file.readlines()
 
 
