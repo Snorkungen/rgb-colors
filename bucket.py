@@ -2,7 +2,7 @@ from os import path
 from progressbar import Progressbar
 import utils
 import csv
-
+import sys
 from filedependency import ensure_file_exists, OUT_DIR
 
 dependency_filename = "colors-with-contrasting-color.csv"
@@ -14,7 +14,11 @@ ensure_file_exists(
 
 filename = path.join(OUT_DIR, dependency_filename)
 
-COLOR_OF_INTREST = "#2020ff"
+
+COLOR_OF_INTREST =  "2020ff"
+if len(sys.argv) > 1:
+    COLOR_OF_INTREST = sys.argv[1]
+
 CONTRAST_RATIO = 7.1  # Because floats are toootally accurate
 contrasting_colors = list()
 
@@ -46,6 +50,6 @@ with open(filename, "r") as file:
         contrasting_colors.append(hex)
     pgbar.end()
 
-with open(path.join("data", f"color-{COLOR_OF_INTREST[1:]}.csv"), "w") as file:
+with open(path.join("data", f"color-{COLOR_OF_INTREST}.csv"), "w") as file:
     for hex in contrasting_colors:
         file.write(hex + "\n")
