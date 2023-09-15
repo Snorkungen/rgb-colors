@@ -3,6 +3,7 @@ import math
 from os import path
 from filedependency import ensure_file_exists, OUT_DIR
 from io import TextIOWrapper
+from svg_utils import MY_SVG_TAG_BUILDER
 
 color_of_intrest = "#1a0000"
 color_of_intrest2 = "#00001a"
@@ -68,10 +69,36 @@ def create_group(fg: str, bg: str, xoffset, yoffset, width, height):
         utils.rgb_relative_luminance(*utils.hex_to_rgb(fg)),
         utils.rgb_relative_luminance(*utils.hex_to_rgb(bg)),
     )
-    return f"""<g>
-        <text fill="{fg.strip()}" font-size="{font_size_small}" x="{xoffset + width / 2}" y="{yoffset+  font_size / 2}" text-anchor="middle" dominant-baseline="hanging" >{fg.strip()}</text>
-        <text fill="{fg.strip()}" font-size="{font_size}" x="{xoffset + width / 2}" y="{yoffset+height/2}" text-anchor="middle" dominant-baseline="middle" >{ratio:.2f}</text>
-    </g>"""
+
+    return MY_SVG_TAG_BUILDER(
+        name="g",
+        children=[
+            MY_SVG_TAG_BUILDER(
+                name="text",
+                attributes={
+                    "fill": fg.strip(),
+                    "font-size": font_size_small,
+                    "x": xoffset + width / 2,
+                    "y": yoffset + font_size / 2,
+                    "text-anchor": "middle",
+                    "dominant-baseline": "hanging",
+                },
+                children=[fg.strip()],
+            ),
+            MY_SVG_TAG_BUILDER(
+                name="text",
+                attributes={
+                    "fill": fg.strip(),
+                    "font-size": font_size,
+                    "x": xoffset + width / 2,
+                    "y": yoffset + height / 2,
+                    "text-anchor": "middle",
+                    "dominant-baseline": "middle",
+                },
+                children=[f"{ratio:.2f}"],
+            ),
+        ],
+    ).__str__()
 
 
 def create_header(bg: str, fg: str, xoffset):
