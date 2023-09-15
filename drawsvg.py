@@ -4,9 +4,9 @@ from os import path
 from filedependency import ensure_file_exists, OUT_DIR
 from io import TextIOWrapper
 
-color_of_intrest = "#004e0d"
-color_of_intrest2 = "#0dff68"
-color_of_intrest3 = "#0d340d"
+color_of_intrest = "#1a0000"
+color_of_intrest2 = "#00001a"
+color_of_intrest3 = "#00005b"
 
 colors = {}
 max_colors = 32
@@ -24,27 +24,42 @@ view_box_height = int(max(width * 2, (math.ceil(max_colors / row_len) / row_len)
 filename = f"color-{color_of_intrest[1:]}.csv"
 ensure_file_exists(filename, ["bucket.py", color_of_intrest[1:]])
 
-sort_func = lambda hex: sum([*utils.hex_to_rgb(hex)])
-def init_contrasting_colors(color_file: TextIOWrapper) -> list[str]:
+
+def create_sort_func(color_of_intrest: str):
+    rgb = utils.hex_to_rgb(color_of_intrest)
+    hue, _, _ = utils.rgb_to_hsl(*rgb)
+
+    def closest_hue(hex: str) -> int:
+        h, _, _ = utils.rgb_to_hsl(*utils.hex_to_rgb(hex))
+        return hue - h if hue >= h else h - hue
+
+    # return lambda hex: ([*utils.hex_to_rgb(hex)][0])
+
+    return closest_hue
+
+
+def init_contrasting_colors(
+    color_of_intrest: str, color_file: TextIOWrapper
+) -> list[str]:
     tmp = color_file.readlines()
-    tmp.sort(key=sort_func, reverse=False)
+    tmp.sort(key=create_sort_func(color_of_intrest), reverse=False)
     return tmp[:max_colors]
 
 
 with open(path.join(OUT_DIR, filename), "r") as file:
-    colors[color_of_intrest] = init_contrasting_colors(file)
+    colors[color_of_intrest] = init_contrasting_colors(color_of_intrest, file)
 
 filename = f"color-{color_of_intrest2[1:]}.csv"
 ensure_file_exists(filename, ["bucket.py", color_of_intrest2[1:]])
 
 with open(path.join(OUT_DIR, filename), "r") as file:
-    colors[color_of_intrest2] = init_contrasting_colors(file)
+    colors[color_of_intrest2] = init_contrasting_colors(color_of_intrest2, file)
 
 filename = f"color-{color_of_intrest3[1:]}.csv"
 ensure_file_exists(filename, ["bucket.py", color_of_intrest3[1:]])
 
 with open(path.join(OUT_DIR, filename), "r") as file:
-    colors[color_of_intrest3] = init_contrasting_colors(file)
+    colors[color_of_intrest3] = init_contrasting_colors(color_of_intrest3, file)
 
 
 def create_group(fg: str, bg: str, xoffset, yoffset, width, height):
