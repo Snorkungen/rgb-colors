@@ -19,7 +19,7 @@ COLOR_OF_INTREST =  "2020ff"
 if len(sys.argv) > 1:
     COLOR_OF_INTREST = sys.argv[1]
 
-CONTRAST_RATIO = 7.1  # Because floats are toootally accurate
+CONTRAST_RATIO = 7.05  # Because floats are toootally accurate
 contrasting_colors = list()
 
 # compute values for intresting color
